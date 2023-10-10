@@ -36,5 +36,5 @@ li $s7, 54	   # a = 45
 li $t8, 45 	   # b = 54
 li $v0, 1	   # imprimindo um inteiro
 add $t9, $s7, $t8  # soma 54+45
-move $a0, $t9      # movendo $t8 para $a0
+move $a0, $t9      # movendo $t9 para $a0
 syscall		   # chamada de sistema
