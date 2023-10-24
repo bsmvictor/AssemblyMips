@@ -1,0 +1,78 @@
+#1)
+#a[10] = b - c
+la $t0, a     # Carrega o endereço base do array 'a' em $t0
+la $t1, b     # Carrega o valor de 'b' em $t1
+la $t2, c     # Carrega o valor de 'c' em $t2
+sub $t3, $t1, $t2  # Subtrai 'c' de 'b' e armazena o resultado em $t3
+sw $t3, 40($t0)    # Armazena o valor de $t3 no índice 10 do array 'a'
+
+#b[245] = a + c
+ la $t0, a     # Carrega o valor de 'a' em $t0
+la $t1, c     # Carrega o valor de 'c' em $t1
+add $t2, $t0, $t1  # Adiciona 'a' e 'c' e armazena o resultado em $t2
+la $t3, b     # Carrega o endereço base do array 'b' em $t3
+sw $t2, 980($t3)   # Armazena o valor de $t2 no índice 245 do array 'b'
+
+#c[0] = b - a
+la $t0, b     # Carrega o valor de 'b' em $t0
+la $t1, a     # Carrega o valor de 'a' em $t1
+sub $t2, $t0, $t1  # Subtrai 'a' de 'b' e armazena o resultado em $t2
+la $t3, c     # Carrega o endereço base do array 'c' em $t3
+sw $t2, 0($t3)     # Armazena o valor de $t2 no índice 0 do array 'c'
+#----------------------------------------------------------------------------------------------------
+#2)
+#a = b[5] - c
+la $t0, b     # Carrega o endereço base do array 'b' em $t0
+lw $t1, 20($t0)   # Carrega o valor de b[5] em $t1
+la $t2, c     # Carrega o valor de 'c' em $t2
+sub $t3, $t1, $t2  # Subtrai 'c' de b[5] e armazena o resultado em $t3
+la $t4, a     # Carrega o endereço base do array 'a' em $t4
+sw $t3, 0($t4)     # Armazena o valor de $t3 em 'a'
+
+
+#b = a[5] + c[3]
+la $t0, a     # Carrega o endereço base do array 'a' em $t0
+lw $t1, 20($t0)   # Carrega o valor de a[5] em $t1
+la $t2, c     # Carrega o endereço base do array 'c' em $t2
+lw $t3, 12($t2)   # Carrega o valor de c[3] em $t3
+add $t4, $t1, $t3  # Adiciona a[5] e c[3] e armazena o resultado em $t4
+la $t5, b     # Carrega o endereço base do array 'b' em $t5
+sw $t4, 0($t5)     # Armazena o valor de $t4 em 'b'
+
+
+#c = b - a[21]
+la $t0, b     # Carrega o valor de 'b' em $t0
+la $t1, a     # Carrega o endereço base do array 'a' em $t1
+lw $t2, 84($t1)   # Carrega o valor de a[21] em $t2
+sub $t3, $t0, $t2  # Subtrai a[21] de 'b' e armazena o resultado em $t3
+la $t4, c     # Carrega o endereço base do array 'c' em $t4
+sw $t3, 0($t4)     # Armazena o valor de $t3 em 'c'
+#----------------------------------------------------------------------------------------------------
+#3)
+.data
+a: .word 4, 5
+j: .word 0
+
+.text
+la $t0, a     # Carrega o endereço base do array 'a' em $t0
+lw $t1, 0($t0)   # Carrega o valor de a[0] em $t1
+li $t2, 5     # Carrega o valor imediato 5 em $t2
+blt $t1, $t2, less_than   # Se a[0] < 5, pula para 'less_than'
+
+# Else (a[0] >= 5)
+la $t3, a     # Carrega o endereço base do array 'a' em $t3
+lw $t4, 4($t3)   # Carrega o valor de a[1] em $t4
+addi $t5, $t4, 10    # Adiciona 10 ao valor de a[1]
+la $t6, j     # Carrega o endereço base da variável 'j' em $t6
+sw $t5, 0($t6)     # Armazena o valor de $t5 em 'j'
+j end_if      # Pula para 'end_if'
+
+# If (a[0] < 5)
+less_than:
+la $t7, j     # Carrega o endereço base da variável 'j' em $t7
+lw $t8, 0($t7)   # Carrega o valor de 'j' em $t8
+addi $t9, $t8, 2    # Adiciona 2 ao valor de 'j'
+sw $t9, 0($t0)     # Armazena o valor de $t9 em a[0]
+
+# End of if-else statement
+end_if:

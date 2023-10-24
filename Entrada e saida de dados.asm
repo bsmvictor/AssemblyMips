@@ -14,7 +14,6 @@ li $v0, 5
 syscall
 add $t1, $v0, $s0
 div $t1, $t2
-mov
 
 mfhi $t3 # desloca o resto da divisao em $t3
 beqz $t3, par # se $t3 for igual a 0
